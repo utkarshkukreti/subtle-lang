@@ -16,4 +16,10 @@ Gem::Specification.new do |gem|
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
+
+  gem.add_dependency "parslet"
+
+  %w{rspec guard-rspec simplecov pry pry-debugger}.each do |name|
+    gem.add_development_dependency name
+  end
 end
