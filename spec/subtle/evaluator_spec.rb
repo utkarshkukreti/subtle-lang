@@ -28,7 +28,6 @@ describe Subtle::Evaluator do
     end
   end
 
-
   describe "Errors" do
     describe "on Arrays" do
       ae! "1 2 + 2 3 4"
