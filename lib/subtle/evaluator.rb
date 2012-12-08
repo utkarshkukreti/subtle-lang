@@ -28,6 +28,11 @@ module Subtle
           if Numeric === left && Numeric === right
             left.send(verb, right)
           elsif Array === left && Array === right
+            if left.size != right.size
+              ae! t, "Size of left array must be the same as the size of" +
+                "right one, but #{left.size} != #{right.size}."
+            end
+
             left.zip(right).map do |x, y|
               x.send(verb, y)
             end
@@ -59,8 +64,12 @@ module Subtle
       Hash === t ? eval(t) : t
     end
 
-    def nie!(tree)
-      raise NotImplementedError.new tree.to_yaml
+    def ae!(tree, message = "")
+      raise ArgumentError.new message << "\n" << tree.to_yaml
+    end
+
+    def nie!(tree, message = "")
+      raise NotImplementedError.new message << "\n" << tree.to_yaml
     end
   end
 end

@@ -14,4 +14,13 @@ RSpec.configure do |config|
       evaluator.eval(input).should eq output
     end
   end
+
+  def ae!(input)
+    it "should raise ArgumentError on evaluating #{input.inspect}" do
+      expect do
+        evaluator = Subtle::Evaluator.new
+        evaluator.eval(input).should eq output
+      end.to raise_exception(ArgumentError)
+    end
+  end
 end

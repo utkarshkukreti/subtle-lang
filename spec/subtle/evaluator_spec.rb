@@ -27,4 +27,11 @@ describe Subtle::Evaluator do
       e "!2.1", [0, 1]
     end
   end
+
+
+  describe "Errors" do
+    describe "on Arrays" do
+      ae! "1 2 + 2 3 4"
+    end
+  end
 end
