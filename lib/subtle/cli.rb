@@ -12,11 +12,13 @@ module Subtle
       loop do
         line = Readline::readline(prompt)
 
-        if line.nil? or line.empty?
+        if line.nil? or line == "exit"
           puts if line.nil?
           puts "Bye!"
           exit 0
         end
+
+        next if line.empty?
 
         Readline::HISTORY << line
 
