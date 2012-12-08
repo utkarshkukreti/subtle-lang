@@ -1,5 +1,7 @@
-require "subtle/version"
+require "parslet"
 
-module Subtle
-  # Your code goes here...
-end
+require "subtle/parser"
+require "subtle/transform"
+require "subtle/evaluator"
+
+require "subtle/version"
