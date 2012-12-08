@@ -1,19 +1,37 @@
 require "spec_helper"
 
 describe Subtle::Evaluator do
-  describe "Simple Arithmetic" do
-    describe "on Atoms" do
-      e "1 + 1", 2
-      e "1 + 2 - -3 * 8 + 5 % 4", 30
-      e "-1 * 5.0 / 4", -1.25
+  describe "Dyads" do
+    describe "Simple Arithmetic" do
+      describe "on Atoms" do
+        e "1 + 1", 2
+        e "1 + 2 - -3 * 8 + 5 % 4", 30
+        e "-1 * 5.0 / 4", -1.25
+      end
+
+      describe "on Arrays" do
+        e "1 1 1 + 2 2 2 * 3 3 3", [7, 7, 7]
+      end
+
+      describe "on Atoms and Arrays" do
+        e "1.1 1 + -2 + 2 2 * 3 % 4 ^ 2 3 + 1 - -1 -1", [5.1, 5]
+      end
     end
 
-    describe "on Arrays" do
-      e "1 1 1 + 2 2 2 * 3 3 3", [7, 7, 7]
-    end
+    describe "And/Min (`&`) and Or/Max(`|`)" do
+      describe "on Atoms" do
+        e "1 & 2 - 3", -1
+        e "7 & 8 | 0", 7
+      end
 
-    describe "on Atoms and Arrays" do
-      e "1.1 1 + -2 + 2 2 * 3 % 4 ^ 2 3 + 1 - -1 -1", [5.1, 5]
+      describe "on Arrays" do
+        e "1 12 & 7 8", [1, 8]
+        e "1 12 | 7 8", [7, 12]
+      end
+
+      describe "on Atoms and Arrays" do
+        e "1 | 7 0 & 8 2 | 8 & 6 7 & 1", [7, 1]
+      end
     end
   end
 
@@ -52,6 +70,7 @@ describe Subtle::Evaluator do
   describe "Errors" do
     describe "on Arrays" do
       ae! "1 2 + 2 3 4"
+      ae! "1 2 | 2 3 4"
     end
   end
 end

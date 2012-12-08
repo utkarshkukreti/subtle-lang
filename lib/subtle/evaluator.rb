@@ -96,6 +96,34 @@ module Subtle
               else
                 nie! t
               end
+            when "&", "|"
+              verb = "min" if verb == "&"
+              verb = "max" if verb == "|"
+
+              if Numeric === left && Numeric === right
+                [left, right].send(verb)
+              elsif Array === left && Array === right
+                if left.size != right.size
+                  ae! t, "Size of left array must be the same as the size of" +
+                    " right one, but #{left.size} != #{right.size}."
+                end
+
+                left.zip(right).map do |x, y|
+                  [x, y].send(verb)
+                end
+              elsif Array === left && Numeric === right
+                left.map do |l|
+                  [l, right].send(verb)
+                end
+              elsif Numeric === left && Array === right
+                right.map do |r|
+                  [left, r].send(verb)
+                end
+              else
+                nie! t
+              end
+            else
+              nie! t, "Invalid verb #{verb}."
             end
           end
         when :enumerate
