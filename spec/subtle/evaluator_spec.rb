@@ -16,4 +16,11 @@ describe Subtle::Evaluator do
       e "1.1 1 + -2 + 2 2 * 3 % 4 ^ 2 3 + 1 - -1 -1", [5.1, 5]
     end
   end
+
+  describe "Enumerate (`!`)" do
+    describe "Precedence" do
+      e "!4", [0, 1, 2, 3]
+      e "1 - !2 + 2", [-1, -2]
+    end
+  end
 end

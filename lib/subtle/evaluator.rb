@@ -43,6 +43,13 @@ module Subtle
             nie! t
           end
         end
+      when :enumerate
+        last = try_eval t[:last]
+        if Integer === last
+          (0...last).to_a
+        else
+          nie! t
+        end
       else
         nie! t
       end

@@ -14,7 +14,12 @@ module Subtle
                      spaces? }
     rule(:atom)    { float | integer }
     rule(:array)   { (atom >> spaces?).repeat(2).as(:array) >> spaces? }
-    rule(:noun)    { array | atom }
+
+    rule :enumerate do
+      (str("!") >> spaces? >> integer.as(:last)).as(:enumerate)
+    end
+
+    rule(:noun)    { enumerate | array | atom }
 
     rule :dyad do
       (noun.as(:left) >>

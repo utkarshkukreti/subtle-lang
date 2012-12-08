@@ -8,5 +8,9 @@ module Subtle
                  right: subtree(:right) } do
       { type: :dyad, left: left, verb: verb.to_s, right: right }
     end
+
+    rule enumerate: { last: subtree(:last) } do
+      { type: :enumerate, last: last }
+    end
   end
 end
