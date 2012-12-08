@@ -78,6 +78,10 @@ describe Subtle::Evaluator do
       e "&1 0 1", [0, 2]
       e "&1 3 2", [0, 1, 1, 1, 2, 2]
     end
+
+    describe "Not (`~`)" do
+      e "~1 0 -1 1 7 8 0 0", [0, 1, 0, 0, 0, 0, 1, 1]
+    end
   end
   describe "Errors" do
     describe "on Arrays" do

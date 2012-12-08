@@ -53,6 +53,10 @@ module Subtle
                   r.times { ret << i }
                 end
               end
+            when "~"
+              right.map do |r|
+                r == 0 ? 1 : 0
+              end
             else
               nie! "Verb #{verb} without Adverb not implemented as a Monad"
             end
