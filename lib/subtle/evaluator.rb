@@ -30,7 +30,7 @@ module Subtle
           elsif Array === left && Array === right
             if left.size != right.size
               ae! t, "Size of left array must be the same as the size of" +
-                "right one, but #{left.size} != #{right.size}."
+                " right one, but #{left.size} != #{right.size}."
             end
 
             left.zip(right).map do |x, y|
