@@ -73,6 +73,12 @@ describe Subtle::Evaluator do
     end
   end
 
+  describe "Monads" do
+    describe "Where (`&`)" do
+      e "&1 0 1", [0, 2]
+      e "&1 3 2", [0, 1, 1, 1, 2, 2]
+    end
+  end
   describe "Errors" do
     describe "on Arrays" do
       ae! "1 2 + 2 3 4"

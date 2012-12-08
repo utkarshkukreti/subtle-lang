@@ -41,7 +41,21 @@ module Subtle
               end
             end
           else
-            nie! t, "Monads without adverbs aren't implemented yet."
+            if Array === right
+            else
+              ae! t, "Can only apply monadic verb on Arrays." +
+                " You passed in #{right.class}."
+            end
+            case verb
+            when "&"
+              [].tap do |ret|
+                right.each_with_index do |r, i|
+                  r.times { ret << i }
+                end
+              end
+            else
+              nie! "Verb #{verb} without Adverb not implemented as a Monad"
+            end
           end
         when :dyad
           left   = try_eval t[:left]
