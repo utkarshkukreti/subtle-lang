@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'subtle'
+
+Subtle::CLI.new ARGV
