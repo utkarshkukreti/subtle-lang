@@ -22,5 +22,9 @@ describe Subtle::Evaluator do
       e "!4", [0, 1, 2, 3]
       e "1 - !2 + 2", [-1, -2]
     end
+
+    describe "on Floats" do
+      e "!2.1", [0, 1]
+    end
   end
 end

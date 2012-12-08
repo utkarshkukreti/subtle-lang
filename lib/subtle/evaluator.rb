@@ -45,8 +45,8 @@ module Subtle
         end
       when :enumerate
         last = try_eval t[:last]
-        if Integer === last
-          (0...last).to_a
+        if Numeric === last
+          (0...last.floor).to_a
         else
           nie! t
         end

@@ -16,7 +16,7 @@ module Subtle
     rule(:array)   { (atom >> spaces?).repeat(2).as(:array) >> spaces? }
 
     rule :enumerate do
-      (str("!") >> spaces? >> integer.as(:last)).as(:enumerate)
+      (str("!") >> spaces? >> (float | integer).as(:last)).as(:enumerate)
     end
 
     rule(:noun)    { enumerate | array | atom }
