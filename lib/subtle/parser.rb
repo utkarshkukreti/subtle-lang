@@ -1,6 +1,8 @@
 module Subtle
   class Parser < Parslet::Parser
     def initialize
+      @monadic_verbs = %w{+ - *  / % ^}
+      @monadic_adverbs = %w{/}
       @dyadic_verbs = %w{+ - *  / % ^}
       @dyadic_adverbs = %w{/: \:}
     end
@@ -22,6 +24,15 @@ module Subtle
 
     rule(:noun)    { enumerate | array | atom }
 
+    rule :monadic_verb do
+      @monadic_verbs.map { |verb| str(verb) }.reduce(:|).as(:verb) >> spaces?
+    end
+
+    rule :monadic_adverb do
+      @monadic_adverbs.map { |adverb| str(adverb) }.reduce(:|).as(:adverb) >>
+      spaces?
+    end
+
     rule :dyadic_verb do
       @dyadic_verbs.map { |verb| str(verb) }.reduce(:|).as(:verb) >> spaces?
     end
@@ -36,8 +47,12 @@ module Subtle
        word.as(:right)).as(:dyad)
     end
 
+    rule :monad do
+      (monadic_verb >> monadic_adverb.maybe >> word.as(:right)).as(:monad)
+    end
+
     rule :word do
-      dyad | noun
+      dyad | noun | monad
     end
 
     rule :sentence do

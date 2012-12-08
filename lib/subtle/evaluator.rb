@@ -16,6 +16,33 @@ module Subtle
       if Hash === t
         type = t[:type]
         case type
+        when :monad
+          verb   = t[:verb]
+          adverb = t[:adverb]
+          right  = try_eval t[:right]
+
+          # `^` in Subtle is `**` in Ruby.
+          verb = "**" if verb == "^"
+
+          if adverb
+            if Array === right
+              if right.size < 2
+                ae! t, "Need Array of size atleast 2 for a monadic adverb." +
+                  " Your Array had #{right.size} items."
+              end
+            else
+              ae! t, "Can only apply monadic adverb on Arrays." +
+                " You passed in #{right.class}."
+            end
+            case adverb
+            when "/"
+              right.reduce do |fold, r|
+                eval type: :dyad, verb: verb, left: fold, right: r
+              end
+            end
+          else
+            nie! t, "Monads without adverbs aren't implemented yet."
+          end
         when :dyad
           left   = try_eval t[:left]
           verb   = t[:verb]

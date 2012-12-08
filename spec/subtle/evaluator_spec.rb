@@ -40,6 +40,13 @@ describe Subtle::Evaluator do
       e "1 2 3 -\\: 0 1", [[1, 2, 3], [0, 1, 2]].transpose
       e "3 2 3 ^\\: 2 3", [[9, 4, 9], [27, 8, 27]].transpose
     end
+
+    describe "Fold (`/`)" do
+      e "+/1 2 3", 6
+      # +/3 4 => 7; 1 2 + 7 => 8 9; +/8 9 = 17;
+      e "+/1 2 + +/3 4", 17
+      e "^/2 3 4", 4096
+    end
   end
 
   describe "Errors" do

@@ -4,6 +4,11 @@ module Subtle
     rule(float:   simple(:x)) { x.to_f }
     rule(array:  subtree(:x)) { x      }
 
+    rule monad: { verb: simple(:verb), adverb: simple(:adverb),
+                  right: subtree(:right) } do
+      { type: :monad, verb: verb.to_s, adverb: adverb.to_s, right: right }
+    end
+
     rule dyad: { left: subtree(:left), verb: simple(:verb),
                  right: subtree(:right) } do
       { type: :dyad, left: left, verb: verb.to_s, right: right }
