@@ -28,6 +28,20 @@ describe Subtle::Evaluator do
     end
   end
 
+  describe "Adverbs" do
+    describe "Map over each right (`/:`)" do
+      e "1 2 3 +/: 5 6", [[6, 7, 8], [7, 8, 9]]
+      e "1 2 3 -/: 0 1", [[1, 2, 3], [0, 1, 2]]
+      e "3 2 3 ^/: 2 3", [[9, 4, 9], [27, 8, 27]]
+    end
+
+    describe "Map over each left (`\:`)" do
+      e "1 2 3 +\\: 5 6", [[6, 7, 8], [7, 8, 9]].transpose
+      e "1 2 3 -\\: 0 1", [[1, 2, 3], [0, 1, 2]].transpose
+      e "3 2 3 ^\\: 2 3", [[9, 4, 9], [27, 8, 27]].transpose
+    end
+  end
+
   describe "Errors" do
     describe "on Arrays" do
       ae! "1 2 + 2 3 4"
