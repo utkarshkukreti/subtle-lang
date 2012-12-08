@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'subtle/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "subtle"
+  gem.name          = "subtle-lang"
   gem.version       = Subtle::VERSION
   gem.authors       = ["Utkarsh Kukreti"]
   gem.email         = ["utkarshkukreti@gmail.com"]
