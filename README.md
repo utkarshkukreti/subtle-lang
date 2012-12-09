@@ -1,29 +1,37 @@
-# Subtle
+# Subtle [![Build Status](https://travis-ci.org/utkarshkukreti/subtle-lang.png)](https://travis-ci.org/utkarshkukreti/subtle-lang)
 
-TODO: Write a gem description
+Subtle is a Terse, Array based Programming Language, heavily inspired by the K
+Programming Language, and partly by APL and J.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+### Using Git (Recommended)
 
-    gem 'subtle'
+    git clone https://github.com/utkarshkukreti/subtle-lang.git
+    cd subtle-lang
+    bundle install
+    rake install
 
-And then execute:
+### From RubyGems
 
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install subtle
+    gem install subtle-lang
 
 ## Usage
 
-TODO: Write usage instructions here
+Run
 
-## Contributing
+    subtle
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+to start the interactive REPL.
+
+## Documentation
+
+No docs yet, but the language is **heavily** tested.
+
+Best way to learn more is to read the specs in `spec/`.
+
+## License
+
+The MIT License
+
+Copyright (c) 2012 Utkarsh Kukreti
