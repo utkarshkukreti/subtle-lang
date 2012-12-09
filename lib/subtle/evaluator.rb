@@ -25,6 +25,14 @@ module Subtle
         when :deassignment
           identifier = t[:identifier]
           @state[identifier]
+        when :function_call
+          function = t[:function]
+          right    = t[:right]
+          _x = @state["x"]
+          @state["x"] = try_eval right
+          eval(function).tap do
+            @state["x"] = _x
+          end
         when :monad
           verb   = t[:verb]
           adverb = t[:adverb]
@@ -160,7 +168,8 @@ module Subtle
                   end
                 end
               else
-                nie! t
+                nie! t, "Left and Array must be Numeric or Arrays." +
+                  " You passed in #{left.class} and #{right.class}."
               end
             when "&", "|"
               verb = "min" if verb == "&"

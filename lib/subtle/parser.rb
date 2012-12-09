@@ -20,7 +20,13 @@ module Subtle
     rule(:assignment)   { (identifier >> spaces? >> str(":") >> spaces? >>
                            word.as(:right)).as(:assignment) >> spaces? }
     rule(:deassignment) { identifier.as(:deassignment) >> spaces? }
-    rule(:atom)         { float | integer | pword | deassignment }
+    rule(:function)     { str("{") >> spaces? >> word.as(:function) >>
+                          spaces? >> str("}") >> spaces? }
+    rule(:function_call) { (function >> spaces? >> word.as(:right)).
+                           as(:function_call) >> spaces? }
+
+    rule(:atom)         { function_call | function | float | integer | pword |
+                          deassignment }
 
     rule :array do
       atom_or_array = (array | (atom >> spaces?).repeat.as(:array)) >> spaces?

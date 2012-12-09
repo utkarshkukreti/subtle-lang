@@ -1,8 +1,9 @@
 module Subtle
   class Transform < Parslet::Transform
-    rule(integer: simple(:x)) { x.to_i }
-    rule(float:   simple(:x)) { x.to_f }
-    rule(array:  subtree(:x)) { x      }
+    rule(integer:    simple(:x)) { x.to_i }
+    rule(float:      simple(:x)) { x.to_f }
+    rule(array:     subtree(:x)) { x      }
+    rule(function:  subtree(:x)) { x      }
 
     rule monad: { verb: simple(:verb), right: subtree(:right) } do
       { type: :monad, verb: verb.to_s, right: right }
@@ -34,6 +35,11 @@ module Subtle
 
     rule deassignment: { identifier: simple(:identifier) } do
       { type: :deassignment, identifier: identifier.to_s }
+    end
+
+    rule function_call: { function: subtree(:function),
+                          right: subtree(:right) } do
+      { type: :function_call, function: function, right: right }
     end
   end
 end
