@@ -100,9 +100,21 @@ module Subtle
                     " right one, but #{left.size} != #{right.size}."
                 end
 
-                left.zip(right).map do |x, y|
-                  x.send(verb, y)
+                # Both have another dimension
+                if Array === left.first && Array === right.first
+                  left.zip(right).map do |l, r|
+                    eval type: :dyad, verb: verb, left: l, right: r
+                  end
+                elsif Array === left.first || Array === right.first
+                  left.zip(right).map do |l, r|
+                    eval type: :dyad, verb: verb, left: l, right: r
+                  end
+                else
+                  left.zip(right).map do |l, r|
+                    l.send(verb, r)
+                  end
                 end
+
               elsif Array === left && Numeric === right
                 # Multi-dimensional arrays
                 if Array === left.first
