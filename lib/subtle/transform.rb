@@ -21,7 +21,8 @@ module Subtle
 
     rule dyad: { left: subtree(:left), verb: simple(:verb),
                  adverb: simple(:adverb), right: subtree(:right) } do
-      { type: :dyad, left: left, verb: verb.to_s, adverb: adverb, right: right }
+      { type: :dyad, left: left, verb: verb.to_s, adverb: adverb.to_s,
+        right: right }
     end
 
     rule enumerate: { last: subtree(:last) } do
