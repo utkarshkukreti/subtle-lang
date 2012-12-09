@@ -104,12 +104,26 @@ module Subtle
                   x.send(verb, y)
                 end
               elsif Array === left && Numeric === right
-                left.map do |l|
-                  l.send(verb, right)
+                # Multi-dimensional arrays
+                if Array === left.first
+                  left.map do |l|
+                    eval type: :dyad, verb: verb, left: l, right: right
+                  end
+                else
+                  left.map do |l|
+                    l.send(verb, right)
+                  end
                 end
               elsif Numeric === left && Array === right
-                right.map do |r|
-                  left.send(verb, r)
+                # Multi-dimensional arrays
+                if Array === right.first
+                  right.map do |r|
+                    eval type: :dyad, verb: verb, left: left, right: r
+                  end
+                else
+                  right.map do |r|
+                    left.send(verb, r)
+                  end
                 end
               else
                 nie! t
