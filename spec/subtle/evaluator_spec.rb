@@ -151,6 +151,13 @@ describe Subtle::Evaluator do
     end
   end
 
+  describe "Parentheses" do
+    e "(1 + 1) * 2", 4
+    e "3 + (1 + 1) * 2", 7
+    e "(1 + 2) * 3", 9
+    e "(((((1 + 1) * 2) + 2) * 3) + 3) * 4", 84
+  end
+
   describe "Errors" do
     describe "on Arrays" do
       ae! "1 2 + 2 3 4"

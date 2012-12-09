@@ -15,7 +15,7 @@ module Subtle
     rule(:integer) { (minus.maybe >> digits).as(:integer) >> spaces? }
     rule(:float)   { (minus.maybe >> digits >> str(".") >> digits).as(:float) >>
                      spaces? }
-    rule(:atom)    { float | integer }
+    rule(:atom)    { float | integer | pword }
 
     rule :array do
       atom_or_array = (array | (atom >> spaces?).repeat.as(:array)) >> spaces?
@@ -61,6 +61,11 @@ module Subtle
 
     rule :word do
       dyad | noun | monad
+    end
+
+    # This is the last option of rule(:atom) above ^
+    rule :pword do
+      str("(") >> spaces? >> word >> spaces? >> str(")") >> spaces?
     end
 
     rule :sentence do
