@@ -85,12 +85,6 @@ module Subtle
           verb = "**" if verb == "^"
 
           if adverb
-            if Array === left && Array === right
-            else
-              ae! t, "Adverb `#{adverb}` must have arrays on both left and" +
-                " right. You passed in #{left.class} and #{right.class}."
-            end
-
             case adverb
             when "/:" # Map each over right
               right.map do |r|
