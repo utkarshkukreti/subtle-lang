@@ -33,6 +33,15 @@ describe Subtle::Evaluator do
         e "1 | 7 0 & 8 2 | 8 & 6 7 & 1", [7, 1]
       end
     end
+
+    describe "Rotate (`!`) (on left: Integer, right: Array)" do
+      e "2 ! 1 2 3", [3, 1, 2]
+      e "2 ! (1 2)", [1, 2]
+      e "2 ! (2 3; 4 5; 8)", [[8], [2, 3], [4, 5]]
+      e "-2 ! 1 2 3", [2, 3, 1]
+      e "-2 ! (1 2)", [1, 2]
+      e "-2 ! (2 3; 4 5; 8)", [[4, 5], [8], [2, 3]]
+    end
   end
 
   describe "Enumerate (`!`)" do
@@ -128,6 +137,11 @@ describe Subtle::Evaluator do
     describe "on Arrays" do
       ae! "1 2 + 2 3 4"
       ae! "1 2 | 2 3 4"
+    end
+
+    describe "on Rotate" do
+      ae! "1 2 ! 2 3"
+      ae! "2 ! 1"
     end
   end
 end

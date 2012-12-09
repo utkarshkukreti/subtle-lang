@@ -174,6 +174,14 @@ module Subtle
               else
                 nie! t
               end
+            when "!"
+              if Numeric === left && Array === right
+              else
+                ae! t, "Left must be Numeric and right must be an Array for" +
+                  " rotate (`!`) dyad. You passed in #{left.class} and" +
+                  " #{right.class}"
+              end
+              right.rotate(left)
             else
               nie! t, "Invalid verb #{verb}."
             end
