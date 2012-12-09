@@ -57,6 +57,12 @@ module Subtle
               right.map do |r|
                 r == 0 ? 1 : 0
               end
+            when "+"
+              if Array === right.first
+                right.transpose
+              else
+                right
+              end
             else
               nie! "Verb #{verb} without Adverb not implemented as a Monad"
             end

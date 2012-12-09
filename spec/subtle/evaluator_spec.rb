@@ -82,6 +82,11 @@ describe Subtle::Evaluator do
     describe "Not (`~`)" do
       e "~1 0 -1 1 7 8 0 0", [0, 1, 0, 0, 0, 0, 1, 1]
     end
+
+    describe "Transpose (`+`)" do
+      e "+1 2 3", [1, 2, 3]
+      e "+(1 2; 3 4; 5 6)", [[1, 3, 5], [2, 4, 6]]
+    end
   end
 
   describe "Multi-dimensional Arrays" do
