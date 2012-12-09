@@ -92,6 +92,11 @@ describe Subtle::Evaluator do
         e "+/: ((1 2; 3 4); (5 6; 7 8))", [[[1, 3], [2, 4]], [[5, 7], [6, 8]]]
         e "|/: (0 1; 0 2)", [[1, 0], [2, 0]]
       end
+
+      describe "Map over and fold (`//:`)" do
+        e "+//: (2 4; 3 1)", [6, 4]
+        e "+//:+(2 4; 3 1)", [5, 5]
+      end
     end
   end
 

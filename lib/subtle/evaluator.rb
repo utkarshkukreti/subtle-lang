@@ -35,6 +35,10 @@ module Subtle
                 " You passed in #{right.class}."
             end
             case adverb
+            when "//:"
+              right.map do |r|
+                eval type: :monad, verb: verb, adverb: "/", right: r
+              end
             when "/"
               right.reduce do |fold, r|
                 eval type: :dyad, verb: verb, left: fold, right: r
