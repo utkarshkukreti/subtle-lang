@@ -2,7 +2,7 @@ module Subtle
   class Parser < Parslet::Parser
     def initialize
       @monadic_verbs = %w{+ - *  / % ^ | & ~}
-      @monadic_adverbs = %w{/}
+      @monadic_adverbs = %w{/: /}
       @dyadic_verbs = %w{+ - *  / % ^ | & !}
       @dyadic_adverbs = %w{/: \:}
     end

@@ -39,6 +39,12 @@ module Subtle
               right.reduce do |fold, r|
                 eval type: :dyad, verb: verb, left: fold, right: r
               end
+            when "/:" # Map each over right
+              right.map do |r|
+                eval type: :monad, verb: verb, right: r
+              end
+            else
+              nie! t, "Invalid adverb #{adverb} on Monads."
             end
           else
             if Array === right
