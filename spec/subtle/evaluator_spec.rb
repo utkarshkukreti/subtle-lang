@@ -83,6 +83,16 @@ describe Subtle::Evaluator do
       e "~1 0 -1 1 7 8 0 0", [0, 1, 0, 0, 0, 0, 1, 1]
     end
   end
+
+  describe "Multi-dimensional Arrays" do
+    describe "Declaring" do
+      e "(1 2; 3 4; 5 6.6 7)", [[1, 2], [3, 4], [5, 6.6, 7]]
+      e "(;;;)", [[], [], [], []]
+      e "(;;3 8;)", [[], [], [3, 8], []]
+      e "(1;2.2 3.3;(;;3 8;);)", [[1], [2.2, 3.3], [[], [], [3, 8], []], []]
+    end
+  end
+
   describe "Errors" do
     describe "on Arrays" do
       ae! "1 2 + 2 3 4"

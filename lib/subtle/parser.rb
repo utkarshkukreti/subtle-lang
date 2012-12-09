@@ -16,7 +16,15 @@ module Subtle
     rule(:float)   { (minus.maybe >> digits >> str(".") >> digits).as(:float) >>
                      spaces? }
     rule(:atom)    { float | integer }
-    rule(:array)   { (atom >> spaces?).repeat(2).as(:array) >> spaces? }
+
+    rule :array do
+      atom_or_array = (array | (atom >> spaces?).repeat.as(:array)) >> spaces?
+
+      (str("(") >> spaces? >> atom_or_array >>
+       (str(";") >> spaces? >> atom_or_array).repeat >>
+       spaces? >> str(")") >> spaces?).as(:array) |
+      (atom >> spaces?).repeat(2).as(:array) >> spaces?
+    end
 
     rule :enumerate do
       (str("!") >> spaces? >> (float | integer).as(:last)).as(:enumerate)
