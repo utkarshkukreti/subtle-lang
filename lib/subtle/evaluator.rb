@@ -63,6 +63,8 @@ module Subtle
               else
                 right
               end
+            when "|"
+              right.reverse
             else
               nie! "Verb #{verb} without Adverb not implemented as a Monad"
             end

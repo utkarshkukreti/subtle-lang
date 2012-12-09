@@ -87,6 +87,11 @@ describe Subtle::Evaluator do
       e "+1 2 3", [1, 2, 3]
       e "+(1 2; 3 4; 5 6)", [[1, 3, 5], [2, 4, 6]]
     end
+
+    describe "Reverse (`|`)" do
+      e "|1 2", [2, 1]
+      e "|(1 2; 3; (6 7; 8))", [[[6, 7], [8]], [3], [1, 2]]
+    end
   end
 
   describe "Multi-dimensional Arrays" do
