@@ -158,6 +158,15 @@ describe Subtle::Evaluator do
     e "(((((1 + 1) * 2) + 2) * 3) + 3) * 4", 84
   end
 
+  describe "Variables" do
+    @e = Subtle::Evaluator.new
+    e "a: 10", 10, @e
+    e "a", 10, @e
+    e "b", nil, @e
+    e "a: 1 + 2", 3, @e
+    e "b: a + 2", 5, @e
+  end
+
   describe "Errors" do
     describe "on Arrays" do
       ae! "1 2 + 2 3 4"

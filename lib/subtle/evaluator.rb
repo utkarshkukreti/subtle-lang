@@ -1,6 +1,7 @@
 module Subtle
   class Evaluator
     def initialize
+      @state = {}
       @parser    = Parser.new
       @transform = Transform.new
     end
@@ -15,7 +16,15 @@ module Subtle
 
       if Hash === t
         type = t[:type]
+
         case type
+        when :assignment
+          identifier = t[:identifier]
+          right      = try_eval t[:right]
+          @state[identifier] = right
+        when :deassignment
+          identifier = t[:identifier]
+          @state[identifier]
         when :monad
           verb   = t[:verb]
           adverb = t[:adverb]
@@ -198,7 +207,7 @@ module Subtle
             nie! t
           end
         else
-          nie! t
+          nie! t, "Type #{t[:type].inspect} not implemented."
         end
       else
         t

@@ -12,10 +12,15 @@ module Subtle
     rule(:digits)  { match["0-9"].repeat(1) }
     rule(:minus)   { str("-") }
 
-    rule(:integer) { (minus.maybe >> digits).as(:integer) >> spaces? }
-    rule(:float)   { (minus.maybe >> digits >> str(".") >> digits).as(:float) >>
-                     spaces? }
-    rule(:atom)    { float | integer | pword }
+    rule(:integer)      { (minus.maybe >> digits).as(:integer) >> spaces? }
+    rule(:float)        { (minus.maybe >> digits >> str(".") >> digits).
+                          as(:float) >> spaces? }
+    rule(:identifier)   { (match["a-zA-Z"] >> match["a-zA-Z0-9_"].repeat).
+                          as(:identifier) }
+    rule(:assignment)   { (identifier >> spaces? >> str(":") >> spaces? >>
+                           word.as(:right)).as(:assignment) >> spaces? }
+    rule(:deassignment) { identifier.as(:deassignment) >> spaces? }
+    rule(:atom)         { float | integer | pword | deassignment }
 
     rule :array do
       atom_or_array = (array | (atom >> spaces?).repeat.as(:array)) >> spaces?
@@ -60,7 +65,7 @@ module Subtle
     end
 
     rule :word do
-      dyad | noun | monad
+      assignment | dyad | noun | monad
     end
 
     # This is the last option of rule(:atom) above ^

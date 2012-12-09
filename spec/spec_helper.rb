@@ -8,9 +8,9 @@ end
 require "subtle"
 
 RSpec.configure do |config|
-  def e(input, output)
+  def e(input, output, evaluator = nil)
     it "should evaluate #{input.inspect} to #{output.inspect}" do
-      evaluator = Subtle::Evaluator.new
+      evaluator ||= Subtle::Evaluator.new
       evaluator.eval(input).should eq output
     end
   end

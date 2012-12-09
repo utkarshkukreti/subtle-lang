@@ -26,5 +26,14 @@ module Subtle
     rule enumerate: { last: subtree(:last) } do
       { type: :enumerate, last: last }
     end
+
+    rule assignment: { identifier: simple(:identifier),
+                       right: subtree(:right) } do
+      { type: :assignment, identifier: identifier.to_s, right: right }
+    end
+
+    rule deassignment: { identifier: simple(:identifier) } do
+      { type: :deassignment, identifier: identifier.to_s }
+    end
   end
 end
