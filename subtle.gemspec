@@ -23,7 +23,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "parslet"
 
-  %w{rspec guard-rspec simplecov pry pry-debugger}.each do |name|
+  %w{rspec guard-rspec simplecov pry}.each do |name|
     gem.add_development_dependency name
   end
 end
