@@ -89,10 +89,11 @@ module Subtle
             end
           end
         when :dyad
+          # Evaluate right first.
+          right  = try_eval t[:right]
           left   = try_eval t[:left]
           verb   = t[:verb]
           adverb = t[:adverb]
-          right  = try_eval t[:right]
 
           # `^` in Subtle is `**` in Ruby.
           verb = "**" if verb == "^"

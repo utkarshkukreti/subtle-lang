@@ -165,6 +165,9 @@ describe Subtle::Evaluator do
     e "b", nil, @e
     e "a: 1 + 2", 3, @e
     e "b: a + 2", 5, @e
+    # Tests whether dyads are evaluated from right to left.
+    e "a: 1", 1, @e
+    e "(a: 10) + (b: 6) * a * (a: 3) + a", 82, @e
   end
 
   describe "Errors" do
