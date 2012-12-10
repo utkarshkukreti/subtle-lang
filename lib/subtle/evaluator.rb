@@ -168,24 +168,20 @@ module Subtle
                 end
 
               elsif Array === left && Numeric === right
-                # Multi-dimensional arrays
-                if Array === left.first
-                  left.map do |l|
+                left.map do |l|
+                  # Multi-dimensional arrays
+                  if Array === l
                     eval type: :dyad, verb: verb, left: l, right: right
-                  end
-                else
-                  left.map do |l|
+                  else
                     (try_eval l).send(verb, right)
                   end
                 end
               elsif Numeric === left && Array === right
-                # Multi-dimensional arrays
-                if Array === right.first
-                  right.map do |r|
+                right.map do |r|
+                  # Multi-dimensional arrays
+                  if Array === r
                     eval type: :dyad, verb: verb, left: left, right: r
-                  end
-                else
-                  right.map do |r|
+                  else
                     left.send(verb, r)
                   end
                 end
