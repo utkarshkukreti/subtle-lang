@@ -25,6 +25,8 @@ module Subtle
         when :deassignment
           identifier = t[:identifier]
           @state[identifier]
+        when :function
+          t[:function]
         when :function_call
           function = t[:function]
           adverb   = t[:adverb]
@@ -46,6 +48,13 @@ module Subtle
               @state["x"] = _x
             end
           end
+        when :variable_call
+          identifier = t[:identifier]
+          adverb     = t[:adverb]
+          arguments  = t[:arguments]
+          function = @state[identifier]
+          eval type: :function_call, function: function, adverb: adverb,
+            right: arguments
         when :monad
           verb   = t[:verb]
           adverb = t[:adverb]

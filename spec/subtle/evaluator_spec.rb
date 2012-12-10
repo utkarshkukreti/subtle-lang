@@ -185,6 +185,16 @@ describe Subtle::Evaluator do
       e "{!x + 1}/:!3", [[0], [0, 1], [0, 1, 2]]
       e "{+x}/:((1 2; 3 4); (4 5; 6 7))", [[[1, 3], [2, 4]], [[4, 6], [5, 7]]]
     end
+
+    describe "Storing in variables" do
+      @e = Subtle::Evaluator.new
+      e "a: {x + !x}", nil, @e
+      e "a 3", [3, 4, 5], @e
+      e "a /: 1 2 3", [[1], [2, 3], [3, 4, 5]], @e
+      e "b: {x + 1}", nil, @e
+      e "c: 4", 4, @e
+      e "c: b b b c", 7, @e
+    end
   end
 
   describe "Errors" do

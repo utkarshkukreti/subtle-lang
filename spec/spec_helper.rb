@@ -11,7 +11,10 @@ RSpec.configure do |config|
   def e(input, output, evaluator = nil)
     it "should evaluate #{input.inspect} to #{output.inspect}" do
       evaluator ||= Subtle::Evaluator.new
-      evaluator.eval(input).should eq output
+      evaluated = evaluator.eval(input)
+      if output
+        evaluated.should eq output
+      end
     end
   end
 

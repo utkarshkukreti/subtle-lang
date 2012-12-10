@@ -37,8 +37,13 @@ module Subtle
         as(:function_call) >> spaces?
     end
 
+    rule(:variable_call) do
+      (identifier >> spaces? >> function_adverb.maybe >>
+       (assignment | dyad | noun).as(:arguments)).as(:variable_call)
+    end
+
     rule(:atom) do
-      function_call | function | float | integer | pword | deassignment
+      variable_call | function_call | function | float | integer | pword | deassignment
     end
 
     rule :array do
