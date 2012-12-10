@@ -42,5 +42,11 @@ module Subtle
                           right: subtree(:right) } do
       { type: :function_call, function: function, right: right }
     end
+
+    rule function_call: { function: subtree(:function), adverb: simple(:adverb),
+                          right: subtree(:right) } do
+      { type: :function_call, function: function, adverb: adverb.to_s,
+        right: right }
+    end
   end
 end

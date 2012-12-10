@@ -5,6 +5,7 @@ module Subtle
       @monadic_adverbs = %w{//: /: /}
       @dyadic_verbs = %w{+ - *  / % ^ | & !}
       @dyadic_adverbs = %w{/: \:}
+      @function_adverbs = %w{/:}
     end
 
     rule(:spaces)  { match["\\s"].repeat(1) }
@@ -20,13 +21,25 @@ module Subtle
     rule(:assignment)   { (identifier >> spaces? >> str(":") >> spaces? >>
                            word.as(:right)).as(:assignment) >> spaces? }
     rule(:deassignment) { identifier.as(:deassignment) >> spaces? }
-    rule(:function)     { str("{") >> spaces? >> word.as(:function) >>
-                          spaces? >> str("}") >> spaces? }
-    rule(:function_call) { (function >> spaces? >> word.as(:right)).
-                           as(:function_call) >> spaces? }
 
-    rule(:atom)         { function_call | function | float | integer | pword |
-                          deassignment }
+    rule(:function) do
+      str("{") >> spaces? >> word.as(:function) >> spaces? >> str("}") >>
+      spaces?
+    end
+
+    rule :function_adverb do
+      @function_adverbs.map { |adverb| str(adverb) }.reduce(:|).as(:adverb) >>
+      spaces?
+    end
+
+    rule(:function_call) do
+      (function >> function_adverb.maybe >> word.as(:right)).
+        as(:function_call) >> spaces?
+    end
+
+    rule(:atom) do
+      function_call | function | float | integer | pword | deassignment
+    end
 
     rule :array do
       atom_or_array = (array | (atom >> spaces?).repeat.as(:array)) >> spaces?

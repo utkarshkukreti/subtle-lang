@@ -27,11 +27,24 @@ module Subtle
           @state[identifier]
         when :function_call
           function = t[:function]
-          right    = t[:right]
-          _x = @state["x"]
-          @state["x"] = try_eval right
-          eval(function).tap do
-            @state["x"] = _x
+          adverb   = t[:adverb]
+          right    = try_eval t[:right]
+          if adverb
+            case adverb
+            when "/:"
+              right = [right] unless Array === right
+              right.map do |r|
+                eval type: :function_call, function: function, right: r
+              end
+            else
+              ae! t, "Invalid adverb #{adverb.inspect} for :function_call."
+            end
+          else
+            _x = @state["x"]
+            @state["x"] = right
+            eval(function).tap do
+              @state["x"] = _x
+            end
           end
         when :monad
           verb   = t[:verb]
@@ -214,7 +227,8 @@ module Subtle
           if Numeric === last
             (0...last.floor).to_a
           else
-            nie! t
+            nie! t, "`last` must be Numeric for type: :enumerate. You passed" +
+              " in #{last.class}."
           end
         else
           nie! t, "Type #{t[:type].inspect} not implemented."
