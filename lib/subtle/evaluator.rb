@@ -163,7 +163,7 @@ module Subtle
                   end
                 else
                   left.zip(right).map do |l, r|
-                    l.send(verb, r)
+                    (try_eval l).send(verb, try_eval(r))
                   end
                 end
 
@@ -175,7 +175,7 @@ module Subtle
                   end
                 else
                   left.map do |l|
-                    l.send(verb, right)
+                    (try_eval l).send(verb, right)
                   end
                 end
               elsif Numeric === left && Array === right

@@ -2,7 +2,7 @@ module Subtle
   class Transform < Parslet::Transform
     rule(integer:    simple(:x)) { x.to_i }
     rule(float:      simple(:x)) { x.to_f }
-    rule(array:     subtree(:x)) { x      }
+    rule(array:     subtree(:x)) { x.size == 1 ? x.first : x }
 
     rule monad: { verb: simple(:verb), right: subtree(:right) } do
       { type: :monad, verb: verb.to_s, right: right }
