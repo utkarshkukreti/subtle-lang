@@ -3,7 +3,6 @@ module Subtle
     rule(integer:    simple(:x)) { x.to_i }
     rule(float:      simple(:x)) { x.to_f }
     rule(array:     subtree(:x)) { x      }
-    rule(function:  subtree(:x)) { x      }
 
     rule monad: { verb: simple(:verb), right: subtree(:right) } do
       { type: :monad, verb: verb.to_s, right: right }
