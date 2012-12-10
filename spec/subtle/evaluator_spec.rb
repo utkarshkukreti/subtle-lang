@@ -47,7 +47,7 @@ describe Subtle::Evaluator do
   describe "Enumerate (`!`)" do
     describe "Precedence" do
       e "!4", [0, 1, 2, 3]
-      e "1 - !2 + 2", [-1, -2]
+      e "5 - !2 + 2", [5, 4, 3, 2]
     end
 
     describe "on Floats" do
@@ -176,6 +176,8 @@ describe Subtle::Evaluator do
       e "{x * 2 - x} 4 6 8", [-8, -24, -48]
       e "{x + 1} {x * 2 - x} 4 6 8", [-7, -23, -47]
       e "{x + {x + x}} 1 2 3", [3, 6, 9]
+      e "{!x} 2", [0, 1]
+      e "{!x + 1} 2", [0, 1, 2]
     end
   end
 

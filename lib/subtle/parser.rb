@@ -38,7 +38,7 @@ module Subtle
     end
 
     rule :enumerate do
-      (str("!") >> spaces? >> (float | integer).as(:last)).as(:enumerate)
+      (str("!") >> spaces? >> (word).as(:last)).as(:enumerate)
     end
 
     rule(:noun)    { enumerate | array | atom }
