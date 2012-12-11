@@ -154,17 +154,10 @@ module Subtle
                     " right one, but #{left.size} != #{right.size}."
                 end
 
-                # Both have another dimension
-                if Array === left.first && Array === right.first
-                  left.zip(right).map do |l, r|
+                left.zip(right).map do |l, r|
+                  if Array === l || Array === r
                     eval type: :dyad, verb: verb, left: l, right: r
-                  end
-                elsif Array === left.first || Array === right.first
-                  left.zip(right).map do |l, r|
-                    eval type: :dyad, verb: verb, left: l, right: r
-                  end
-                else
-                  left.zip(right).map do |l, r|
+                  else
                     ret = (try_eval l).send(verb, try_eval(r))
                     if %w{== < >}.include?(verb)
                       ret ? 1 : 0
@@ -173,7 +166,6 @@ module Subtle
                     end
                   end
                 end
-
               elsif Array === left && Numeric === right
                 left.map do |l|
                   # Multi-dimensional arrays
