@@ -132,11 +132,11 @@ module Subtle
             case adverb
             when "/:" # Map each over right
               right.map do |r|
-                eval({ type: :dyad, left: left, verb: verb, right: r })
+                eval type: :dyad, left: left, verb: verb, right: r
               end
             when "\\:" # Map each over left
               left.map do |l|
-                eval({ type: :dyad, left: l, verb: verb, right: right })
+                eval type: :dyad, left: l, verb: verb, right: right
               end
             else
               ae! t, "Invalid Adverb #{adverb}"
