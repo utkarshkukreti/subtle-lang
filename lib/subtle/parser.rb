@@ -43,7 +43,8 @@ module Subtle
     end
 
     rule(:atom) do
-      variable_call | function_call | function | float | integer | pword | deassignment
+      variable_call | function_call | function | float | integer | pword |
+        deassignment
     end
 
     rule :array do
