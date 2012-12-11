@@ -6,12 +6,10 @@ module Subtle
       @transform = Transform.new
     end
 
-    def eval(string_or_tree)
-      if String === string_or_tree
-        parsed = @parser.parse string_or_tree
+    def eval(t)
+      if String === t
+        parsed = @parser.parse t
         t = @transform.apply parsed
-      else
-        t = string_or_tree
       end
 
       if Hash === t
@@ -19,12 +17,9 @@ module Subtle
 
         case type
         when :assignment
-          identifier = t[:identifier]
-          right      = try_eval t[:right]
-          @state[identifier] = right
+          @state[t[:identifier]] = try_eval t[:right]
         when :deassignment
-          identifier = t[:identifier]
-          @state[identifier]
+          @state[t[:identifier]]
         when :function
           t[:function]
         when :function_call
