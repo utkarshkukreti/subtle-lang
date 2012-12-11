@@ -127,6 +127,8 @@ module Subtle
 
           # `^` in Subtle is `**` in Ruby.
           verb = "**" if verb == "^"
+          # and `=` is `==`.
+          verb = "==" if verb == "="
 
           if adverb
             case adverb
@@ -143,9 +145,14 @@ module Subtle
             end
           else
             case verb
-            when "+", "-", "*", "/", "%", "**"
+            when "+", "-", "*", "/", "%", "**", "==", "<", ">"
               if Numeric === left && Numeric === right
-                left.send(verb, right)
+                ret = left.send(verb, right)
+                if %w{== < >}.include?(verb)
+                  ret ? 1 : 0
+                else
+                  ret
+                end
               elsif Array === left && Array === right
                 if left.size != right.size
                   ae! t, "Size of left array must be the same as the size of" +
@@ -163,7 +170,12 @@ module Subtle
                   end
                 else
                   left.zip(right).map do |l, r|
-                    (try_eval l).send(verb, try_eval(r))
+                    ret = (try_eval l).send(verb, try_eval(r))
+                    if %w{== < >}.include?(verb)
+                      ret ? 1 : 0
+                    else
+                      ret
+                    end
                   end
                 end
 
@@ -173,7 +185,12 @@ module Subtle
                   if Array === l
                     eval type: :dyad, verb: verb, left: l, right: right
                   else
-                    (try_eval l).send(verb, right)
+                    ret = (try_eval l).send(verb, right)
+                    if %w{== < >}.include?(verb)
+                      ret ? 1 : 0
+                    else
+                      ret
+                    end
                   end
                 end
               elsif Numeric === left && Array === right
@@ -182,7 +199,12 @@ module Subtle
                   if Array === r
                     eval type: :dyad, verb: verb, left: left, right: r
                   else
-                    left.send(verb, r)
+                    ret = left.send(verb, r)
+                    if %w{== < >}.include?(verb)
+                      ret ? 1 : 0
+                    else
+                      ret
+                    end
                   end
                 end
               else

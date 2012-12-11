@@ -3,7 +3,7 @@ module Subtle
     def initialize
       @monadic_verbs = %w{+ - *  / % ^ | & ~}
       @monadic_adverbs = %w{//: /: /}
-      @dyadic_verbs = %w{+ - *  / % ^ | & !}
+      @dyadic_verbs = %w{+ - *  / % ^ | & ! = < >}
       @dyadic_adverbs = %w{/: \:}
       @function_adverbs = %w{/:}
     end

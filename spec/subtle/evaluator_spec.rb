@@ -42,6 +42,26 @@ describe Subtle::Evaluator do
       e "-2 ! (1 2)", [1, 2]
       e "-2 ! (2 3; 4 5; 8)", [[4, 5], 8, [2, 3]]
     end
+
+    describe "Comparison (`=`, `<`, `>`)" do
+      describe "on Atoms" do
+        e "1 > 3", 0
+        e "7 < 8", 1
+        e "7 = 7", 1
+      end
+
+      describe "on Arrays" do
+        e "1 12 < 7 8", [1, 0]
+        e "1 12 > 7 8", [0, 1]
+        e "1 12 1 = 7 8 1", [0, 0, 1]
+      end
+
+      describe "on Atoms and Arrays" do
+        e "1 2 > 3", [0, 0]
+        e "7 < 8 0", [1, 0]
+        e "7 = 7 7", [1, 1]
+      end
+    end
   end
 
   describe "Enumerate (`!`)" do
