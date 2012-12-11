@@ -82,7 +82,7 @@ module Subtle
                 eval type: :monad, verb: verb, right: r
               end
             else
-              nie! t, "Invalid adverb #{adverb} on Monads."
+              ae! t, "Invalid adverb #{adverb} on Monads."
             end
           else
             if Array === right
@@ -110,7 +110,7 @@ module Subtle
             when "|"
               right.reverse
             else
-              nie! "Verb #{verb} without Adverb not implemented as a Monad"
+              ae! "Verb #{verb} without Adverb not implemented as a Monad"
             end
           end
         when :dyad
@@ -136,7 +136,7 @@ module Subtle
                 eval({ type: :dyad, left: l, verb: verb, right: right })
               end
             else
-              nie! t, "Invalid Adverb #{adverb}"
+              ae! t, "Invalid Adverb #{adverb}"
             end
           else
             case verb
@@ -203,7 +203,7 @@ module Subtle
                   end
                 end
               else
-                nie! t, "Left and Array must be Numeric or Arrays." +
+                ae! t, "Left and Array must be Numeric or Arrays." +
                   " You passed in #{left.class} and #{right.class}."
               end
             when "&", "|"
@@ -230,7 +230,7 @@ module Subtle
                   [left, r].send(verb)
                 end
               else
-                nie! t
+                ae! t
               end
             when "!"
               if Numeric === left && Array === right
@@ -241,7 +241,7 @@ module Subtle
               end
               right.rotate(left)
             else
-              nie! t, "Invalid verb #{verb}."
+              ae! t, "Invalid verb #{verb}."
             end
           end
         when :enumerate
@@ -249,11 +249,11 @@ module Subtle
           if Numeric === last
             (0...last.floor).to_a
           else
-            nie! t, "`last` must be Numeric for type: :enumerate. You passed" +
+            ae! t, "`last` must be Numeric for type: :enumerate. You passed" +
               " in #{last.class}."
           end
         else
-          nie! t, "Type #{t[:type].inspect} not implemented."
+          ae! t, "Type #{t[:type].inspect} not implemented."
         end
       else
         t
@@ -266,10 +266,6 @@ module Subtle
 
     def ae!(tree, message = "")
       raise ArgumentError.new message << "\n" << tree.to_yaml
-    end
-
-    def nie!(tree, message = "")
-      raise NotImplementedError.new message << "\n" << tree.to_yaml
     end
   end
 end
