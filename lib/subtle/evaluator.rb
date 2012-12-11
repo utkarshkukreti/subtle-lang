@@ -214,11 +214,19 @@ module Subtle
                 end
               elsif Array === left && Numeric === right
                 left.map do |l|
-                  [l, right].send(verb)
+                  if Array === l
+                    eval type: :dyad, verb: verb, left: l, right: right
+                  else
+                    [l, right].send(verb)
+                  end
                 end
               elsif Numeric === left && Array === right
                 right.map do |r|
-                  [left, r].send(verb)
+                  if Array === r
+                    eval type: :dyad, verb: verb, left: left, right: r
+                  else
+                    [left, r].send(verb)
+                  end
                 end
               else
                 ae! t
