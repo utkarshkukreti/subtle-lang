@@ -27,6 +27,7 @@ describe Subtle::Evaluator do
       describe "on Arrays" do
         e "1 12 & 7 8", [1, 8]
         e "1 12 | 7 8", [7, 12]
+        e "(1; 0 1 1 0 0; 1) & (1; 0 1 0 1 0; 1)", [1, [0, 1, 0, 0, 0], 1]
       end
 
       describe "on Atoms and Arrays" do

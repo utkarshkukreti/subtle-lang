@@ -120,10 +120,13 @@ module Subtle
           verb   = t[:verb]
           adverb = t[:adverb]
 
-          # `^` in Subtle is `**` in Ruby.
+          # `^` in Subtle is `**` in Ruby,
           verb = "**" if verb == "^"
-          # and `=` is `==`.
+          # `=` is `==`,
           verb = "==" if verb == "="
+          # `&` is `min` and `|` is `max.
+          verb = "min" if verb == "&"
+          verb = "max" if verb == "|"
 
           if adverb
             case adverb
@@ -198,10 +201,7 @@ module Subtle
                 ae! t, "Left and Array must be Numeric or Arrays." +
                   " You passed in #{left.class} and #{right.class}."
               end
-            when "&", "|"
-              verb = "min" if verb == "&"
-              verb = "max" if verb == "|"
-
+            when "max", "min"
               if Numeric === left && Numeric === right
                 [left, right].send(verb)
               elsif Array === left && Array === right
@@ -209,9 +209,8 @@ module Subtle
                   ae! t, "Size of left array must be the same as the size of" +
                     " right one, but #{left.size} != #{right.size}."
                 end
-
-                left.zip(right).map do |x, y|
-                  [x, y].send(verb)
+                left.zip(right).map do |l, r|
+                  eval type: :dyad, verb: verb, left: l, right: r
                 end
               elsif Array === left && Numeric === right
                 left.map do |l|
