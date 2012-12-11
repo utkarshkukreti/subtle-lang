@@ -17,14 +17,13 @@ module Subtle
     rule(:float)        { (minus.maybe >> digits >> str(".") >> digits).
                           as(:float) >> spaces? }
     rule(:identifier)   { (match["a-zA-Z"] >> match["a-zA-Z0-9_"].repeat).
-                          as(:identifier) }
-    rule(:assignment)   { (identifier >> spaces? >> str(":") >> spaces? >>
+                          as(:identifier) >> spaces? }
+    rule(:assignment)   { (identifier >> str(":") >> spaces? >>
                            word.as(:right)).as(:assignment) >> spaces? }
-    rule(:deassignment) { identifier.as(:deassignment) >> spaces? }
+    rule(:deassignment) { identifier.as(:deassignment) }
 
     rule(:function) do
-      str("{") >> spaces? >> word.as(:function) >> spaces? >> str("}") >>
-      spaces?
+      str("{") >> spaces? >> word.as(:function) >> str("}") >> spaces?
     end
 
     rule :function_adverb do
@@ -39,7 +38,7 @@ module Subtle
 
     rule(:variable_call) do
       (identifier >> spaces? >> function_adverb.maybe >>
-       (assignment | dyad | noun).as(:arguments)).as(:variable_call)
+       (assignment | dyad | noun).as(:arguments)).as(:variable_call) >> spaces?
     end
 
     rule(:atom) do
@@ -48,7 +47,7 @@ module Subtle
     end
 
     rule :array do
-      atom_or_array = (array | (atom >> spaces?).repeat.as(:array)) >> spaces?
+      atom_or_array = (array | (atom >> spaces?).repeat.as(:array))
 
       (str("(") >> spaces? >> atom_or_array >>
        (str(";") >> spaces? >> atom_or_array).repeat >>
@@ -57,7 +56,7 @@ module Subtle
     end
 
     rule :enumerate do
-      (str("!") >> spaces? >> (word).as(:last)).as(:enumerate)
+      (str("!") >> spaces? >> (word).as(:last)).as(:enumerate) >> spaces?
     end
 
     rule(:noun)    { enumerate | array | atom }
@@ -82,11 +81,12 @@ module Subtle
 
     rule :dyad do
       (noun.as(:left) >> dyadic_verb >> dyadic_adverb.maybe >>
-       word.as(:right)).as(:dyad)
+       word.as(:right)).as(:dyad) >> spaces?
     end
 
     rule :monad do
-      (monadic_verb >> monadic_adverb.maybe >> word.as(:right)).as(:monad)
+      (monadic_verb >> monadic_adverb.maybe >> word.as(:right)).as(:monad) >>
+      spaces?
     end
 
     rule :word do
