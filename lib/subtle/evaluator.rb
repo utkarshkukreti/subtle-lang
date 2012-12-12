@@ -59,15 +59,7 @@ module Subtle
           verb = "**" if verb == "^"
 
           if adverb
-            if Array === right
-              if right.size < 2
-                ae! t, "Need Array of size atleast 2 for a monadic adverb." +
-                  " Your Array had #{right.size} items."
-              end
-            else
-              ae! t, "Can only apply monadic adverb on Arrays." +
-                " You passed in #{right.class}."
-            end
+            right = [right] unless Array === right
             case adverb
             when "//:"
               right.map do |r|
