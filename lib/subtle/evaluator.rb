@@ -73,6 +73,13 @@ module Subtle
               right.map do |r|
                 eval type: :monad, verb: verb, right: r
               end
+            when "\\" # Scan
+              [right.shift].tap do |scan|
+                right.each do |r|
+                  scan << eval({type: :dyad, verb: verb, left: scan.last,
+                                right: r})
+                end
+              end
             else
               ae! t, "Invalid adverb #{adverb} on Monads."
             end
