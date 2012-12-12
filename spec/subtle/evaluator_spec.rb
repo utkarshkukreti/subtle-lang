@@ -125,20 +125,28 @@ describe Subtle::Evaluator do
 
   describe "Monads" do
     describe "Where (`&`)" do
+      e "&1", [0]
+      e "&2", [0, 0]
       e "&1 0 1", [0, 2]
       e "&1 3 2", [0, 1, 1, 1, 2, 2]
     end
 
     describe "Not (`~`)" do
+      e "~0", 1
+      e "~1", 0
+      e "~4", 0
       e "~1 0 -1 1 7 8 0 0", [0, 1, 0, 0, 0, 0, 1, 1]
     end
 
     describe "Transpose (`+`)" do
+      e "+0", 0
+      e "+1", 1
       e "+1 2 3", [1, 2, 3]
       e "+(1 2; 3 4; 5 6)", [[1, 3, 5], [2, 4, 6]]
     end
 
     describe "Reverse (`|`)" do
+      e "|1", 1
       e "|1 2", [2, 1]
       e "|(1 2; 3; (6 7; 8))", [[[6, 7], 8], 3, [1, 2]]
     end

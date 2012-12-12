@@ -86,31 +86,35 @@ module Subtle
             end
           else
             if Array === right
-            else
-              ae! t, "Can only apply monadic verb on Arrays." +
-                " You passed in #{right.class}."
-            end
-            case verb
-            when "&"
-              [].tap do |ret|
-                right.each_with_index do |r, i|
-                  r.times { ret << i }
+              case verb
+              when "&"
+                [].tap do |ret|
+                  right.each_with_index do |r, i|
+                    r.times { ret << i }
+                  end
                 end
+              when "~"
+                right.map do |r|
+                  r == 0 ? 1 : 0
+                end
+              when "+"
+                if Array === right.first
+                  right.transpose
+                else
+                  right
+                end
+              when "|"
+                right.reverse
               end
-            when "~"
-              right.map do |r|
-                r == 0 ? 1 : 0
-              end
-            when "+"
-              if Array === right.first
-                right.transpose
-              else
+            elsif Numeric === right
+              case verb
+              when "&"
+                right.times.map { 0 }
+              when "~"
+                right == 0 ? 1 : 0
+              when "+", "|"
                 right
               end
-            when "|"
-              right.reverse
-            else
-              ae! "Verb #{verb} without Adverb not implemented as a Monad"
             end
           end
         when :dyad
